@@ -1,13 +1,11 @@
-const Sequelize = require("sequelize");
+module.exports = function(Sequelize, DataTypes){
+    const Token = Sequelize.define("Token", {
+        user_id: DataTypes.INTEGER
+    })
 
-const Token = sequelize.define("Token", {
-    user_id: Sequelize.INTEGER
-})
+    Token.associate = function(models) {
+        Token.hasMany(models.Users, { as: 'Users', foreign_key: 'user_id' })
+    }
 
-Token.associate = function(models) {
-    Token.hasMany(Users, { as: 'Users', foreign_key: 'user_id' })
+    return Token
 }
-
-
-
-module.exports = Token;
