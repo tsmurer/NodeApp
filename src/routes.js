@@ -5,13 +5,24 @@ import UserController from './app/controllers/UserController';
 
 var jsonParser = bodyParser.json()
  
-// create application/x-www-form-urlencoded parser
 
 const routes = new Router();
 
-
+// get 1
 routes.get('/users/:username', UserController.get);
+
+// find all
 routes.get('/users/', UserController.findAll);
+
+// create
 routes.post('/users/', jsonParser, UserController.post);
+
+// update
+routes.put('/users/:id', jsonParser, UserController.update);
+
+// delete
+routes.delete('/users/:id', UserController.delete);
+
+
 
 module.exports = routes;
