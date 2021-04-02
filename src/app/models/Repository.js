@@ -9,8 +9,8 @@ module.exports = function(Sequelize, DataTypes){
         name: DataTypes.STRING(50),
         local: DataTypes.STRING(100),
         description: DataTypes.STRING(600),
+        is_public: DataTypes.BOOLEAN(),
         slug: DataTypes.STRING(100),
-        user_id: DataTypes.INTEGER(11)
         
 
     })

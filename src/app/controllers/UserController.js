@@ -1,5 +1,7 @@
 const Users = require('../models/').Users;
+const Repositories = require('../models/').Repositories;
 const Token = require('../models').Token;
+
 
 class UserController {
 
@@ -13,6 +15,7 @@ class UserController {
     }
 
     const { id, name, email, local, avatar, bio } = user;
+    const repositories = await Repositories.findAll({ where: { UserId: user.id } });
     
     return res.json({
       id,
@@ -21,6 +24,7 @@ class UserController {
       local,
       avatar,
       bio,
+      "repositories": repositories
     });
   }
 
