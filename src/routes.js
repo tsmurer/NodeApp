@@ -16,10 +16,14 @@ routes.get('/users/:username/repositories/:id', RepositoriesController.get);
 // find all
 routes.get('/users/', UserController.findAll);
 routes.get('/users/:username/repositories/', RepositoriesController.findAll);
+// routes.get('/users/:username/followers/', FollowersController.findAll);
+// routes.get('/users/:username/following/', FollowingsController.findAll);
 
 // create
 routes.post('/users/', jsonParser, UserController.post);
 routes.post('/users/:username/repositories/', jsonParser, RepositoriesController.post);
+// routes.post('/users/:username/followers/', jsonParser, FollowersController.post);
+// routes.post('/users/:username/following/', jsonParser, FollowingsController.post);
 
 // update
 routes.put('/users/:id', jsonParser, UserController.update);

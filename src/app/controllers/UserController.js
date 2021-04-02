@@ -83,7 +83,7 @@ class UserController {
       return res.status(404).json({ error: 'Usuário não encontrado' });
     }
 
-    const { name, username, email, location, avatar, bio } = req.body;
+    const { name, username, email, local, avatar, bio } = req.body;
 
     const emailAlreadyTaken = await Users.findOne({
       where: { email },
@@ -104,7 +104,7 @@ class UserController {
     const { active } = await user.update({
       name,
       email,
-      location,
+      local,
       avatar,
       username,
       bio,
@@ -113,7 +113,7 @@ class UserController {
     return res.json({
       name,
       email,
-      location,
+      local,
       avatar,
       username,
       bio,
