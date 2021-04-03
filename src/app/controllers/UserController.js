@@ -1,6 +1,10 @@
-const Users = require('../models/').Users;
-const Repositories = require('../models/').Repositories;
-const Token = require('../models').Token;
+
+
+const models = require('../models');
+const Follows = models.sequelize.models.Follows;
+const Users = models.Users;
+const Repositories = models.Repositories;
+const Token = models.Token;
 
 
 class UserController {
@@ -16,6 +20,8 @@ class UserController {
 
     const { id, name, email, local, avatar, bio } = user;
     const repositories = await Repositories.findAll({ where: { UserId: user.id } });
+    const followers = await Follows.findAll({ where: { UserId: user.id } });
+    const followings = await Follows.findAll({ where: { FollowingId: user.id } });
     
     return res.json({
       id,
@@ -24,7 +30,10 @@ class UserController {
       local,
       avatar,
       bio,
-      "repositories": repositories
+      "repositories": repositories,
+      "repositories_count": repositories.length,
+      "followers_count": followers.length,
+      "followings_count": followings.length,
     });
   }
 

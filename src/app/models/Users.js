@@ -29,12 +29,8 @@ module.exports = function(Sequelize, DataTypes){
             foreign_key: 'user_id'
         })
         Users.belongsToMany(Users, {
-            as: 'Followers',
-            through: 'PersonFollowers'
-        } )
-        Users.belongsToMany(Users, {
-            as: 'Followings',
-            through: 'PersonFollowings'
+            as: 'Following',
+            through: 'Follows'
         } )
         Users.belongsToMany(models.Repositories, {
             as: 'StarredReps',

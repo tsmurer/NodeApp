@@ -1,4 +1,4 @@
-const Users = require('../models/').Users;
+const Stars = models.sequelize.models.Stars;
 
 class FollowingsController {
     async findAll(req, res) {

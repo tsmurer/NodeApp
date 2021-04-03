@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 
 import UserController from './app/controllers/UserController';
 import RepositoriesController from './app/controllers/RepositoriesController';
+import FollowsController from './app/controllers/FollowsController';
 
 var jsonParser = bodyParser.json()
  
@@ -16,14 +17,12 @@ routes.get('/users/:username/repositories/:id', RepositoriesController.get);
 // find all
 routes.get('/users/', UserController.findAll);
 routes.get('/users/:username/repositories/', RepositoriesController.findAll);
-// routes.get('/users/:username/followers/', FollowersController.findAll);
-// routes.get('/users/:username/following/', FollowingsController.findAll);
+routes.get('/users/:username/follows/', FollowsController.findAll);
 
 // create
 routes.post('/users/', jsonParser, UserController.post);
 routes.post('/users/:username/repositories/', jsonParser, RepositoriesController.post);
-// routes.post('/users/:username/followers/', jsonParser, FollowersController.post);
-// routes.post('/users/:username/following/', jsonParser, FollowingsController.post);
+routes.post('/users/:username/follows/', jsonParser, FollowsController.post);
 
 // update
 routes.put('/users/:id', jsonParser, UserController.update);
@@ -32,6 +31,7 @@ routes.put('/users/:username/repositories/:id', jsonParser, RepositoriesControll
 // delete
 routes.delete('/users/:id', UserController.delete);
 routes.delete('/users/:username/repositories/:id', RepositoriesController.delete);
+routes.delete('/users/:username/follows/', jsonParser, FollowsController.unfollow);
 
 
 

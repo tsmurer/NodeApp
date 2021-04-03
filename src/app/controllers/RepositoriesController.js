@@ -10,7 +10,7 @@ class RepositoriesController {
             const repository = await Repositories.findAll({ where: { UserId: user.id } });
         
             if (!repository) {
-            return res.status(401).json({ error: 'Repositório não encontrado' });
+            return res.status(404).json({ error: 'Repositório não encontrado' });
             }
 
             const repository_object = {}
