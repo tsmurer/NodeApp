@@ -30,14 +30,14 @@ class TokenController {
   async getAll(request, response) {
     try {
 
-    const token = await Token.findAll();
+      const token = await Token.findAll();
 
-    return response.json(token);
-  } catch (err) {
-    return res.send(err.message);
+      return response.json(token);
+    } catch (err) {
+      return res.send(err.message);
+    }
   }
 }
-
 
 
 export default new TokenController();

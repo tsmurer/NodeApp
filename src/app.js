@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const port = 3333;
 
 const app = express();
 
@@ -14,5 +14,5 @@ app.use(routes);
 
 
 
-app.listen(3333);
-console.log("Ouvindo porta 3333")
+app.listen(port);
+console.log("Ouvindo porta " + port)

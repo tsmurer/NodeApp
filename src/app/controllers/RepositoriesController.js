@@ -1,13 +1,22 @@
 import slugify from 'slugify';
-const Repositories = require('../models/').Repositories;
-const Users = require('../models/').Users;
+const models = require('../models/');
+const Stars = models.sequelize.models.Stars;
+const Repositories = models.Repositories;
+const Users = models.Users;
 
 class RepositoriesController {
     async findAll(req, res) {
         try {
-            const { username } = req.params;
-            const user = await Users.findOne({where: {username: username}})
-            const repository = await Repositories.findAll({ where: { UserId: user.id } });
+            const { username } = req.params,
+              user = await Users.findOne({where: {username: username}}),
+              repository = await Repositories.findAll({ where: { UserId: user.id } });
+            //   stars = await Stars.findAll({ where: { RepositoryId: id } }),
+            //   starUsernames = [];
+
+            // for(let i = 0; i < stars.length; i++) {
+            //     let u = await Users.findOne({ where: {id: stars[i].UserId}});
+            //     starUsernames.push(u.username);
+            // }
         
             if (!repository) {
             return res.status(404).json({ error: 'Repositório não encontrado' });
@@ -34,24 +43,21 @@ class RepositoriesController {
     async post(req, res) {
         try {
 
-            const { UserId, name, local, description, is_public } = await req.body;
+            const { name, description, is_public } = await req.body;
+            const { username } = await req.params;
 
-            console.log(req.body);
-
-            const user = await Users.findOne({
-              where: { id: UserId },
-            });
+            const user = await Users.findOne({ where: { username: username } });
         
             if (!user) {
               return res.status(404).json({ error: 'Usuário não encontrado' });
             }
         
-            const slug = slugify(`${user.username}${name}`);
+            const slug = slugify(`${username}${name}`);
         
             const repositoryCreated = await Repositories.create({
-              UserId,
+              UserId: user.id,
               name,
-              local,
+              local: user.local,
               description,
               is_public,
               slug,
