@@ -143,8 +143,7 @@ class UserController {
           return res.status(404).json({ error: 'Usuário não encontrado' });
         }
         await Users.destroy({
-          where: { id },
-        });
+          where: { id }, include: { Repositories }});
 
         return res.json({ message: 'Usuário deletado' });
     } catch (err) {

@@ -9,14 +9,18 @@ class RepositoriesController {
         try {
             const { username } = req.params,
               user = await Users.findOne({where: {username: username}}),
-              repository = await Repositories.findAll({ where: { UserId: user.id } });
-            //   stars = await Stars.findAll({ where: { RepositoryId: id } }),
-            //   starUsernames = [];
+              repository = await Repositories.findAll({ where: { UserId: user.id }});
+              for(const rep of repository) {
+                const stars = await Stars.findAll({ where: { RepositoryId: rep.id } });
+                const starUsernames = [];
 
-            // for(let i = 0; i < stars.length; i++) {
-            //     let u = await Users.findOne({ where: {id: stars[i].UserId}});
-            //     starUsernames.push(u.username);
-            // }
+                for(const star of stars) {
+                  let u = await Users.findOne({ where: {id: star.UserId}});
+                  starUsernames.push(u.username);
+                }
+
+                Object.assign(rep.dataValues, {"stars": starUsernames, "stars_count": starUsernames.length})
+              }
         
             if (!repository) {
             return res.status(404).json({ error: 'Repositório não encontrado' });
@@ -34,6 +38,26 @@ class RepositoriesController {
 
     async get(req, res) {
         try {
+          const { id } = req.params
+          const repository = await Repositories.findOne({ where: {id: id}});
+
+          
+          if (!repository) {
+            return res.status(404).json({ error: 'Repositório não encontrado' });
+          }
+
+          const stars = await Stars.findAll({ where: { RepositoryId: id } }),
+            starUsernames = [];
+
+          for(let i = 0; i < stars.length; i++) {
+              let u = await Users.findOne({ where: {id: stars[i].UserId}});
+              starUsernames.push(u.username);
+          }
+
+          await Object.assign(repository.dataValues, {"stars": starUsernames, "stars_count": starUsernames.length} )
+          console.log(repository);
+      
+          return res.json(repository);
 
         } catch (err) {
             return res.send(err.message);
